@@ -1,8 +1,8 @@
-import { createContext } from 'react';
-import { useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 
 const StateManagerContext = createContext({
 	state: null,
+	setState: () => {},
 	updateState: () => {},
 });
 
@@ -17,9 +17,7 @@ const getUpdatedState = (state, newState) => {
 };
 
 const updateStateArray = (state, newState) => {
-
 	newState.reduce((updatedState, { id, ...itemData }) => {
-
 		// 1. Ищем существующий элемент по id
 		const foundItem = state.find(({ id: itemId }) => id === itemId);
 
@@ -49,7 +47,9 @@ const updateStateObject = (state, newState) => {
 		(updatedState, [key, value]) => ({
 			...updatedState,
 			[key]:
-				typeof value === 'object' ? getUpdatedState(updatedState[key], value) : value,
+				typeof value === 'object' && value !== null
+					? getUpdatedState(updatedState[key], value)
+					: value,
 		}),
 		state,
 	);
@@ -63,8 +63,10 @@ export const StateManager = ({ children, initialState }) => {
 	};
 
 	return (
-		<StateManagerContext.Provider value={{ state, updateState }}>
+		<StateManagerContext.Provider value={{ state, setState, updateState }}>
 			{children}
 		</StateManagerContext.Provider>
 	);
 };
+
+export const useStateManager = () => useContext(StateManagerContext)

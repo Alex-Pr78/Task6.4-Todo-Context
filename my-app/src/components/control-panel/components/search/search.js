@@ -1,20 +1,39 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { debounce } from './utils';
+import { useStateManager } from '../../../../state-manager';
 import styles from './search.module.css';
 
-export const Search = ({ onSearch }) => {
-	const [value, setValue] = useState('');
+export const Search = () => {
+	const {
+		state: {
+			options: { searchInput, isAlphabetSorting },
+		},
+		updateState,
+	} = useStateManager();
 
-	const debouncedOnSearch = useRef(debounce(onSearch, 1500)).current;
+	const runSearch = (phrase, sorting) => {
+		updateState({
+			options: {
+				searchPhrase: phrase,
+				isAlphabetSorting: sorting,
+			}
+		});
+	};
+
+	const debouncedRunSearch = useRef(debounce(runSearch, 1500)).current;
 
 	const onChange = ({ target }) => {
-		setValue(target.value);
-		debouncedOnSearch(target.value);
+		updateState({
+			options: {
+				searchInput: target.value,
+			}
+		})
+		debouncedRunSearch(target.value, isAlphabetSorting);
 	};
 
 	const onSubmit = (event) => {
 		event.preventDefault();
-		onSearch(value);
+		runSearch(searchInput);
 	};
 
 	return (
@@ -22,7 +41,7 @@ export const Search = ({ onSearch }) => {
 			<input
 				className={styles.input}
 				type="text"
-				value={value}
+				value={searchInput}
 				placeholder="Поиск..."
 				onChange={onChange}
 			/>

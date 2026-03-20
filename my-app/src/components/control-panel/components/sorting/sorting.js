@@ -1,13 +1,21 @@
-import { useState } from 'react';
 import { Button } from '../../../button/button';
 import styles from './sorting.module.css';
+import { useStateManager } from '../../../../state-manager';
 
-export const Sorting = ({ onSorting }) => {
-	const [isEnabled, setIsEnabled] = useState(false);
+export const Sorting = () => {
+	const {
+		state: {
+			options: { isAlphabetSorting },
+		},
+		updateState,
+	} = useStateManager();
 
 	const onChange = ({ target }) => {
-		setIsEnabled(target.checked);
-		onSorting(target.checked);
+		updateState({
+			options: {
+				isAlphabetSorting: target.checked,
+			}
+		})
 	};
 
 	return (
@@ -16,7 +24,7 @@ export const Sorting = ({ onSorting }) => {
 				className={styles.checkbox}
 				id="sorting-button"
 				type="checkbox"
-				checked={isEnabled}
+				checked={isAlphabetSorting}
 				onChange={onChange}
 			/>
 			<label className={styles.label} htmlFor="sorting-button">
