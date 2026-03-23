@@ -1,6 +1,6 @@
 export const initialState = {
 	todos: [],
-	taskEditor: {
+	editingTodo: {
 		id: null,
 		title: '',
 	},

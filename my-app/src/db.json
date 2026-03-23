@@ -7,13 +7,8 @@
     },
     {
       "title": "Новое дело 22",
-      "completed": false,
-      "id": 2
-    },
-    {
-      "title": "Новое дело 64",
       "completed": true,
-      "id": 7
+      "id": 2
     }
   ]
 }

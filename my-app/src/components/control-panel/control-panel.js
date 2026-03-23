@@ -16,7 +16,7 @@ export const ControlPanel = () => {
 					completed: false,
 				},
 			],
-			taskEditor: {
+			editingTodo: {
 				id: NEW_TODO_ID,
 				title: '',
 			},
