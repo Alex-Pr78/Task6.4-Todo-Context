@@ -12,9 +12,16 @@ export const App = () => {
 	} = state;
 
 	useEffect(() => {
-		readTodos(searchPhrase, isAlphabetSorting).then((loadedTodos) =>
-			setState({ ...state, todos: loadedTodos }),
-		);
+		readTodos(searchPhrase, isAlphabetSorting).then((loadedTodos) => {
+			setState({
+				...state,
+				todos: loadedTodos,
+				options: {
+					...state.options,
+					isLoading: false,
+				},
+			});
+		});
 	}, [searchPhrase, isAlphabetSorting]);
 
 	return (
@@ -22,12 +29,7 @@ export const App = () => {
 			<ControlPanel />
 			<div>
 				{todos.map(({ id, title, completed }) => (
-					<Todo
-						key={id}
-						id={id}
-						title={title}
-						completed={completed}
-					/>
+					<Todo key={id} id={id} title={title} completed={completed} />
 				))}
 			</div>
 		</div>

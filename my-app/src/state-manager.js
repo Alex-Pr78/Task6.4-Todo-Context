@@ -9,41 +9,30 @@ const StateManagerContext = createContext({
 // Проверяем, является ли объект пустым.
 const checkEmptyObject = (obj) => Object.keys(obj).length === 0;
 
-// Маршрутизация обновления
-const getUpdatedState = (state, newState) => {
-	Array.isArray(newState)
-		? updateStateArray(state, newState)
-		: updateStateObject(state, newState);
-};
+const getUpdatedState = (state, newStateData) =>
+	Array.isArray(newStateData)
+		? updateStateArray(state, newStateData)
+		: updateStateObject(state, newStateData);
 
-const updateStateArray = (state, newState) => {
-	newState.reduce((updatedState, { id, ...itemData }) => {
-		// 1. Ищем существующий элемент по id
-		const foundItem = state.find(({ id: itemId }) => id === itemId);
+const updateStateArray = (state, newStateData) =>
+	newStateData.reduce((updatedState, { id, ...newItemData }) => {
+		if (checkEmptyObject(newItemData)) {
+			return updatedState.filter(({ id: idToCheck }) => idToCheck !== id);
+		}
 
-		// 2. Если элемента нет - добавляем в начало
+		const foundItem = state.find(({ id: itemId }) => itemId === id);
+
 		if (!foundItem) {
-			return [{ id, ...itemData }, ...updatedState];
+			return [{ id, ...newItemData }, ...updatedState];
 		}
 
-		// 3. Если itemData пустой - удаляем элемент
-		if (checkEmptyObject(itemData)) {
-			return updatedState.filter(({ id: idToItemCheck }) => id !== idToItemCheck);
-		}
-
-		// 4. Иначе - обновляем элемент
-		return updatedState.map((item) => {
-			if (item.id === id) {
-				return { ...item, ...itemData };
-			} else {
-				return item;
-			}
-		});
+		return updatedState.map((item) =>
+			item.id === id ? { ...item, ...newItemData } : item,
+		);
 	}, state);
-};
 
-const updateStateObject = (state, newState) => {
-	Object.entries(newState).reduce(
+const updateStateObject = (state, newStateData) =>
+	Object.entries(newStateData).reduce(
 		(updatedState, [key, value]) => ({
 			...updatedState,
 			[key]:
@@ -53,14 +42,11 @@ const updateStateObject = (state, newState) => {
 		}),
 		state,
 	);
-};
 
 export const StateManager = ({ children, initialState }) => {
 	const [state, setState] = useState(initialState);
 
-	const updateState = (newState) => {
-		setState(getUpdatedState(state, newState));
-	};
+	const updateState = (newStateData) => setState(getUpdatedState(state, newStateData));
 
 	return (
 		<StateManagerContext.Provider value={{ state, setState, updateState }}>
