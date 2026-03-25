@@ -1,19 +1,19 @@
 {
   "todos": [
     {
-      "id": 1,
-      "title": "Второе дело 2",
-      "completed": true
-    },
-    {
-      "title": "Новое дело 22gjvhjh",
-      "completed": false,
+      "title": "Не использовать useReducer() и flux-подход в целом",
+      "completed": true,
       "id": 2
     },
     {
-      "title": "sdsgsdg SD",
+      "title": "Использовать React Context там, где он уместен",
+      "completed": false,
+      "id": 4
+    },
+    {
+      "title": "Прикрепить ссылку на ответ в форме отправки ответа ниже.",
       "completed": true,
-      "id": 3
+      "id": 5
     }
   ]
 }

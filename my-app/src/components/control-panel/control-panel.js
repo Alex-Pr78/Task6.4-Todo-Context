@@ -1,7 +1,7 @@
 import { useStateManager } from '../../state-manager';
 import { Button } from '../button/button';
 import { Search, Sorting } from './components';
-import { NEW_TODO_ID } from '../../constants'
+import { NEW_TODO_ID } from '../../constants';
 import styles from './control-panel.module.css';
 
 export const ControlPanel = () => {
@@ -24,10 +24,13 @@ export const ControlPanel = () => {
 	};
 
 	return (
-		<div className={styles.controlPanel}>
-			<Search />
-			<Sorting />
-			<Button onClick={onTodoAdd}>✚</Button>
+		<div className={styles.container}>
+			<h2 className={styles.title}>Список дел</h2>
+			<div className={styles.controlPanel}>
+				<Search />
+				<Sorting />
+				<Button onClick={onTodoAdd}>✚</Button>
+			</div>
 		</div>
 	);
 };

@@ -117,6 +117,7 @@ export const Todo = ({ id, title, completed }) => {
 						type="text"
 						autoFocus={true}
 						disabled={isLoading}
+						className={styles.todoInput}
 						value={editingTodoTitle}
 						onChange={onTitleChange}
 						onKeyDown={onTitleKeyDown}
@@ -129,7 +130,7 @@ export const Todo = ({ id, title, completed }) => {
 				{isEditing ? (
 					<Button onClick={onSave}>✎</Button>
 				) : (
-					<Button onClick={onRemove}>✖</Button>
+					<button className={styles.removeButton} onClick={onRemove}>✖</button>
 				)}
 			</div>
 		</div>

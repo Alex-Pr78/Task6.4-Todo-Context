@@ -1,6 +1,17 @@
+.container {
+	padding: 5px;
+}
+
+.title {
+	font-size: 24px;
+	margin-left: 20px;
+	margin-bottom: 20px;
+}
+
 .controlPanel {
 	display: flex;
-	height: 25px;
-	border-bottom: 2px solid #444;
+	justify-content: space-between;
+	align-items: center;
 	padding: 10px;
+	gap: 10px;
 }
